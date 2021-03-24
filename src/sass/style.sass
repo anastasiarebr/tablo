@@ -1,0 +1,104 @@
+@import '_fonts'
+$font-color: #272727
+$bgd-blue: rgba(30, 158, 230, 0.19)
+
+*
+  font-family: 'Roboto', sans-serif
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+.header
+  padding: 19px 70px 0 62px
+  display: flex
+  justify-content: space-between
+
+.logo
+  height: 116px
+
+.date-wraper
+  font-family: 'VAG World', 'Roboto', sans-serif
+  font-size: 60px
+  width: 660px
+  display: flex
+  justify-content: space-between
+  color: $font-color
+
+.main
+  display: flex
+  justify-content: space-between
+.titles
+  padding: 24px 43px 0 43px
+  display: flex
+  justify-content: space-between
+.title
+  width: 560px
+  display: flex
+  justify-content: space-between
+  padding: 18px 56px 8px 22px
+  span
+    font-weight: normal
+    font-size: 36px
+    color: #1F1F1F
+
+.column
+  display: flex
+  justify-content: space-between
+  &-items
+    display: flex
+    max-height: 810px
+    flex-direction: column
+    flex-wrap: wrap
+  &-item
+    position: relative
+    height: 135px
+    width: 560px
+    display: flex
+    justify-content: space-between
+    margin-left: 40px
+    margin-right: 40px
+.bgdblue
+  background: $bgd-blue
+.data-wraper
+  display: flex
+.person
+  width: 280px
+  font-family: 'VAG World', 'Roboto', sans-serif
+  font-size: 62px
+  line-height: 125px
+  color: #EB5757
+  text-align: center
+.table
+  width: 280px
+  font-family: 'VAG World', 'Roboto', sans-serif
+  font-size: 62px
+  line-height: 125px
+  color: #4F4F4F
+  text-align: center
+.arrow
+  position: absolute
+  left: 283px
+  top: 52px
+
+.body
+  position: relative
+.newItem
+  position: absolute
+  left: 50%
+  top: 50%
+  transform: translate(-50%, -50%)
+  width: 1920px
+  background: #FFFFFF
+  color: #4F4F4F
+  font-size: 64px
+  font-weight: bold
+  text-align: center
+  padding: 118px 0
+  span
+    color: #EB5757
+
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity .5s
+.fade-enter, .fade-leave-to
+  opacity: 0
