@@ -9,108 +9,174 @@
         <span>Поступающий</span>
         <span>№ стола</span>
       </div>
-      <div class="title">
-        <span>Поступающий</span>
-        <span>№ стола</span>
-      </div>
 </div>
   <div class="main">
     <div class="column">
       <div class="column-items" >
-        <div class="column-item " v-for="person in people" :key="person.id" :class="(person.id % 2 !== 0) ? 'bgdblue' : ''">
-          <div class="person">{{person.id}}</div>
+        <div class="column-item " v-for="(talon, index) in list.show" :key="index" :class="(indexInOrder(index) < 5 && indexInOrder(index) % 2 === 0) || (indexInOrder(index) > 4 && indexInOrder(index) % 2 !== 0) ? 'bgdblue' : ''">
+          <div class="person">{{talon.talon}}</div>
           <div class="arrow">
-              <svg
-            width="46"
-            height="46"
-            viewBox="0 0 46 46"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g clip-path="url(#clip0)">
-              <path
-                d="M2.76485 26.2289C2.95308 26.2594 3.14356 26.2735 3.33414 26.271L35.7862 26.271L35.0786 26.6002C34.3869 26.9276 33.7577 27.3731 33.219 27.9167L24.1186 37.0171C22.9201 38.1612 22.7187 40.0017 23.6414 41.378C24.7153 42.8446 26.7747 43.163 28.2414 42.0891C28.3599 42.0023 28.4725 41.9077 28.5783 41.8059L45.0347 25.3495C46.3208 24.0649 46.3219 21.981 45.0373 20.6949C45.0365 20.6941 45.0355 20.6932 45.0347 20.6923L28.5783 4.23595C27.2912 2.95246 25.2073 2.95534 23.9237 4.24243C23.8227 4.34374 23.7284 4.45153 23.6414 4.56508C22.7187 5.94135 22.9201 7.78189 24.1186 8.92602L33.2026 18.0429C33.6855 18.5263 34.2407 18.9316 34.8482 19.2442L35.8356 19.6885L3.51527 19.6885C1.83394 19.6261 0.358829 20.8005 0.0429688 22.4532C-0.248001 24.2474 0.970596 25.9378 2.76485 26.2289Z"
-                fill="#1E9EE6"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0">
-                <rect
-                  width="46"
-                  height="46"
-                  fill="white"
-                  transform="translate(46 46) rotate(-180)"
-                />
-              </clipPath>
-            </defs>
-          </svg>
+              <svg width="91" height="65" viewBox="0 0 91 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.46961 37.7646C5.84196 37.8144 6.21878 37.8374 6.59581 37.8334L70.7945 37.8334L69.3946 38.37C68.0263 38.9038 66.7815 39.6302 65.7159 40.5165L47.713 55.3541C45.342 57.2195 44.9436 60.2204 46.7689 62.4643C48.8933 64.8554 52.9674 65.3746 55.8688 63.6237C56.1032 63.4822 56.326 63.3279 56.5354 63.1619L89.0904 36.3308C91.6346 34.2363 91.6368 30.8387 89.0955 28.7419C89.0939 28.7405 89.092 28.739 89.0904 28.7377L56.5354 1.90661C53.9892 -0.186042 49.8667 -0.181348 47.3274 1.91718C47.1276 2.08235 46.941 2.2581 46.7689 2.44323C44.9436 4.68714 45.342 7.68803 47.713 9.55346L65.6833 24.4179C66.6386 25.206 67.737 25.8669 68.9388 26.3765L70.8921 27.101L6.95412 27.101C3.62801 26.9992 0.709861 28.9141 0.0850081 31.6086C-0.490605 34.534 1.9201 37.2901 5.46961 37.7646Z" :fill="chooseColor(talon.status)"/>
+              </svg>
           </div>
-          <div class="table">{{person.num}}</div>
+          <div class="table">{{talon.number_of_table}}</div>
         </div>
       </div>
     </div>
   </div>
+  </div>
   <transition name="fade">
     <div v-if="addNewItem === 1" class="newItem">
-      Абитуриент с талоном <span>{{newItem.id}}</span> подойдите к столу <span>{{newItem.num}}</span>
+      Абитуриент с талоном <span>{{newItem.talon}}</span> подойдите к столу <span>{{newItem.number_of_table}}</span>
   </div>
   </transition>
-  <button @click="add">Add</button>
-  </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref, reactive, computed } from 'vue'
+import { NEWCOLOR, REPEATCOLOR, OLDCOLOR } from './composables/Colors'
+import { SHOW_TALON, DELAY_ADD_TALON, DELAY_UPDATE_LIST } from './composables/Time'
+
 export default {
   setup () {
-    const people = ref([
-      {
-        id: 1,
-        num: 4
-      },
-      {
-        id: 2,
-        num: 6
-      },
-      {
-        id: 3,
-        num: 1
-      },
-      {
-        id: 4,
-        num: 9
-      },
-      {
-        id: 5,
-        num: 15
-      },
-      {
-        id: 6,
-        num: 8
-      },
-      {
-        id: 7,
-        num: 20
-      }
-    ])
-    const newItem = { id: 10, num: 50 }
+    // let sec = 0
+    const showCount = ref(0)
+    const axios = require('axios')
+    const data = ref('')
+    const newColor = NEWCOLOR
+    const repeatColor = REPEATCOLOR
+    const oldColor = OLDCOLOR
     const addNewItem = ref(0)
+    const newItem = ref('')
     const audio = new Audio(require('../sound/sound.mp3'))
+    const list = reactive({
+      pre: [],
+      forShow: [],
+      show: {}
+    })
 
-    function add () {
+    const lastKey = computed({
+      get: () => Object.keys(data.value).reverse()[0]
+    })
+
+    const lastShowKey = computed({
+      get: () => Object.keys(list.show).reverse()[0]
+    })
+
+    const showLength = computed({
+      get: () => Object.keys(list.show).length
+    })
+
+    function indexInOrder (item) {
+      return Object.keys(list.show).indexOf(item)
+    }
+
+    onMounted(() => {
+      // setInterval(() => {
+      //   console.log(sec)
+      //   sec += 1
+      // }, 1000)
+      setInterval(() => {
+        request()
+      }, DELAY_UPDATE_LIST)
+    })
+
+    function request () {
+      console.log('from request')
+      axios.get('https://tablo-83a92-default-rtdb.firebaseio.com/queue.json')
+        .then(response => {
+          data.value = response.data
+          let i = 0
+          for (i in data.value) {
+            if (!(data.value[i])) {
+              delete data.value[i]
+            }
+          }
+        })
+        .then(() => {
+          setTimeout(() => {
+            updateList()
+          }, 2000)
+        })
+    }
+
+    function updateList () {
+      if (data.value.length !== 0) {
+        if (showCount.value === 0) {
+          fillList(0)
+        } else {
+          deleteItems()
+          fillList(+lastShowKey.value + 1)
+        }
+      }
+    }
+
+    function deleteItems () {
+      console.log('from delete')
+      let i = 0
+      for (i in list.show) {
+        if (!data.value[i]) {
+          showCount.value--
+          delete list.show[i]
+        }
+      }
+    }
+
+    function fillList (i) {
+      if (i <= lastKey.value && showCount.value < 10) {
+        if (data.value[i]) {
+          setTimeout(() => {
+            add(i, data.value[i]).then(() => {
+              showCount.value++
+              fillList(i + 1)
+            })
+          }, DELAY_ADD_TALON)
+        } else {
+          fillList(i + 1)
+        }
+      }
+    }
+    async function add (i, item) {
       audio.play()
       addNewItem.value = 1
-      setTimeout(() => {
-        addNewItem.value = 0
-        people.value.push(newItem)
-      }, 2000)
+      newItem.value = item
+      await new Promise(resolve => {
+        setTimeout(() => {
+          pushItem(i, item)
+          addNewItem.value = 0
+          resolve('done')
+        }, SHOW_TALON)
+      })
+    }
+
+    async function pushItem (i, item) {
+      await new Promise(resolve => {
+        list.show[i] = (item)
+        resolve('done')
+      })
+    }
+
+    function chooseColor (status) {
+      if (status === 0) {
+        return '#EB5757'
+      } else if (status === 1) {
+        return '#1E9EE6'
+      } else {
+        return '#27AE60'
+      }
     }
 
     return {
-      people,
-      add,
+      list,
+      addNewItem,
       newItem,
-      addNewItem
+      newColor,
+      repeatColor,
+      oldColor,
+      chooseColor,
+      showLength,
+      indexInOrder
     }
   }
 }
