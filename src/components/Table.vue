@@ -55,6 +55,8 @@ export default {
       forShow: [],
       show: {}
     })
+    const url = 'https://api.sdo.mpgu.org/queue'
+    // axios.defaults.headers.common[Authorization] = `Bearer ${token}`
 
     const lastKey = computed({
       get: () => Object.keys(data.value).reverse()[0]
@@ -82,9 +84,20 @@ export default {
       }, DELAY_UPDATE_LIST)
     })
 
+    // console.log('from request')
+    // https://tablo-83a92-default-rtdb.firebaseio.com/queue.json
+
+    const username = 'adminsdotest'
+    const password = 'Fjjj76654ghhd43'
+    // const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64')
+
     function request () {
-      console.log('from request')
-      axios.get('https://tablo-83a92-default-rtdb.firebaseio.com/queue.json')
+      axios.get(url, {
+        auth: {
+          username: username,
+          password: password
+        }
+      })
         .then(response => {
           data.value = response.data
           let i = 0
