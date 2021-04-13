@@ -1,28 +1,25 @@
 $bgd-blue: rgba(30, 158, 230, 0.19)
 $talon-blue: #3F88C5
 $talon-grey: #4F4F4F
-    
+
+.body
+  position: relative
 .main
-  display: flex
-  justify-content: space-between
-  padding: 0 50px
+  // display: flex
+  // justify-content: space-between
+  padding: 0 30px
 .titles
-  padding: 0px 50px
-  display: flex
-  justify-content: space-between
+  padding: 0px 30px
+//   display: flex
+//   justify-content: space-between
 .title
-  width: 870px
   display: flex
   justify-content: space-between
-  padding: 10px 176px 12px 75px
-  span
-    font-weight: normal
-    font-size: 36px
-    color: #1F1F1F
+  font-weight: normal
+  font-size: 36px
+  padding: 10px 0 15px 0
 
 .column
-  display: flex
-  justify-content: space-between
   &-items
     display: flex
     max-height: 950px
@@ -30,37 +27,32 @@ $talon-grey: #4F4F4F
     flex-wrap: wrap
   &-item
     position: relative
-    width: 870px
     display: flex
     justify-content: space-between
-    margin-right: 47px
-    padding: 28px 0 54px 0
+    padding: 28px 0 47px 0
 .bgdblue
   background: $bgd-blue
 .data-wraper
   display: flex
 .person
-  width: 435px
+  width:400px
   font-family: 'VAG World', 'Roboto', sans-serif
-  font-size: 120px
-  line-height: 87px
+  line-height: 96px
   color: $talon-blue
   text-align: center
 .table
-  width: 435px
+  width: 50%
   font-family: 'VAG World', 'Roboto', sans-serif
-  font-size: 120px
-  line-height: 87px
+  line-height: 85px
   color: $talon-grey
   text-align: center
 .arrow
   position: absolute
-  left: 410px
-  top: 60px
+  left: 50%
+  top: 53px
   // transform: translateY(-50%)
 
-.body
-  position: relative
+
 .newItem
   position: absolute
   left: 50%
@@ -81,3 +73,16 @@ $talon-grey: #4F4F4F
   transition: opacity .5s
 .fade-enter, .fade-leave-to
   opacity: 0
+
+.slide-fade-enter-active 
+  transition: all 0.8s ease-out
+
+.slide-fade-leave-active 
+  transition: all 0s ease-out
+// cubic-bezier(1, 0.5, 0.8, 1)
+
+.slide-fade-enter-from,
+.slide-fade-leave-to 
+  transform: translateX(20px)
+  opacity: 0
+  
