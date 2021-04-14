@@ -205,6 +205,9 @@ export default {
     // const fioLength = computed({
     //   get: () => arrow.list.length
     // })
+    function timeDelay () {
+      return arrow.showMessage.length * 5000
+    }
     function toArray (obj) {
       let i = 0
       for (i in obj) {
@@ -242,7 +245,6 @@ export default {
     function fillList (i) {
       if (i < arrow.showMessage.length) {
         setTimeout(() => {
-          console.log(arrow.showMessage[i])
           add(arrow.showMessage[i]).then(() => {
             fillList(i + 1)
           })
@@ -276,7 +278,13 @@ export default {
     }
 
     onMounted(() => {
-      setInterval(() => {
+      // let sec = 0
+      // setInterval(() => {
+      //   console.log(sec)
+      //   sec++
+      // }, 1000)
+      function request () {
+        const delay = DELAY_UPDATE_LIST + timeDelay()
         clearAll()
         axios.get(url, {
           auth: {
@@ -291,7 +299,9 @@ export default {
           divideArray(arrow.preShowT, arrow.showT, 10)
           fillList(0)
         })
-      }, DELAY_UPDATE_LIST)
+        setTimeout(request, delay)
+      }
+      setTimeout(request, DELAY_UPDATE_LIST + timeDelay())
       setInterval(() => {
         slider.count = number.allTablo
         if (slider.active >= slider.count) {
@@ -299,7 +309,7 @@ export default {
         } else {
           slider.active++
         }
-      }, 5000)
+      }, 10000)
     })
     return {
       arrow,
@@ -307,7 +317,8 @@ export default {
       add,
       slider,
       addNewItem,
-      newItem
+      newItem,
+      timeDelay
     }
   }
 }
