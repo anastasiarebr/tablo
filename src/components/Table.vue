@@ -1,8 +1,8 @@
 <template>
-  <div v-if="number.fio <= 5 && number.talon <= 5">
+  <div v-if="number.fio <= 5 && number.talon <= 5 && number.fio != 0 && number.talon != 0">
   <FIOTalon :arrowF = 'arrow.showF[0]' :arrowT = 'arrow.showT[0]' />
   </div>
-  <div v-if="number.fio > 5 || number.talon > 5" >
+  <div v-if="number.fio > 5 || number.talon > 5 || number.fio === 0 || number.talon === 0" >
   <div v-for="i of arrow.showT.length"  :key="i">
     <transition name="slide-fade">
       <Talon :arrow = 'arrow.showT[i-1]' v-if="i === slider.active" class="list"/>
@@ -246,6 +246,7 @@ export default {
       if (i < arrow.showMessage.length) {
         setTimeout(() => {
           add(arrow.showMessage[i]).then(() => {
+            console.log(arrow.showMessage[i])
             fillList(i + 1)
           })
         }, DELAY_ADD_TALON)
@@ -284,7 +285,8 @@ export default {
       //   sec++
       // }, 1000)
       function request () {
-        const delay = DELAY_UPDATE_LIST + timeDelay()
+        let delay = DELAY_UPDATE_LIST + timeDelay()
+        console.log('delay1', delay)
         clearAll()
         axios.get(url, {
           auth: {
@@ -298,8 +300,10 @@ export default {
           divideArray(arrow.preShowF, arrow.showF, 5)
           divideArray(arrow.preShowT, arrow.showT, 10)
           fillList(0)
+          delay = DELAY_UPDATE_LIST + timeDelay()
+          console.log('delay2', delay)
+          setTimeout(request, delay)
         })
-        setTimeout(request, delay)
       }
       setTimeout(request, DELAY_UPDATE_LIST + timeDelay())
       setInterval(() => {
